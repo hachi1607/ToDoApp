@@ -1,0 +1,441 @@
+
+* {
+  font-family: "Pixelify Sans", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+div {
+  -webkit-app-region: no-drag;
+}
+
+::placeholder {
+  color: var(--lightredorange);
+  opacity: 0.5;
+}
+
+/* Czcionki */
+.startbuttonstyle {
+  color: var(--redorange);
+  font-size: 50px;
+  font-weight: bold;
+  line-height: 150%;
+  letter-spacing: 0%;
+  text-align: center;
+}
+
+.loginbuttonstyle {
+  color: var(--redorange);
+  font-size: 50px;
+  font-weight: bold;
+  line-height: 150%;
+  letter-spacing: 0%;
+  text-align: center;
+}
+
+.appheaderstyle {
+  color: var(--lightredorange);
+  font-family: Pixelify Sans;
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 150%;
+  letter-spacing: 0%;
+}
+
+.titlestyle {
+  color: black;
+  font-size: 64px;
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.5; 
+}
+
+/* Kolory */
+:root {
+  --redorange: #e2551f;
+  --lightredorange: #eb6735;
+  --creamyellow: #f0d6a5;
+  --orange: #f7a479;
+  --yellow: #f8d38c;
+}
+
+/* obsługa paska górnego */
+.window-controls {
+  position: absolute;
+  -webkit-app-region: no-drag;
+  display: flex;
+  gap: 10px;
+  left: 513px;
+  top: 10px;
+}
+
+.appname {
+  position: absolute;
+  left: 11px;
+  top: 5px;
+}
+
+#minimize-btn,
+#close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+#minimize-btn img,
+#close-btn img {
+  width: 50px;
+  height: 50px;
+}
+
+#minimize-btn:hover img,
+#close-btn:hover img {
+  opacity: 0.8;
+}
+
+/* ramka */
+.frame {
+  -webkit-app-region: no-drag;
+  position: absolute;
+  width: 610px;
+  height: 756px;
+  left: 14px;
+  top: 70px;
+  box-sizing: border-box;
+  border: 5px solid var(--lightredorange);
+}
+
+/* obramowanie aplikacji */
+body {
+  -webkit-app-region: drag;
+  position: relative;
+  width: 650px;
+  height: 850px;
+  box-sizing: border-box;
+  border: 6px solid var(--lightredorange);
+  background: var(--creamyellow);
+}
+
+/* obsługa pola z gifem */
+.fill {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.fill img {
+  flex-shrink: 1;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.gif {
+  position: relative;
+  top: 65px;
+}
+
+/* tekst ekranu startowego */
+.starttext {
+  position: absolute;
+  top: calc(50% - 150px);
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  z-index: 1;
+}
+
+/* przycisk start */
+.startbutton {
+  -webkit-app-region: no-drag;
+  position: absolute;
+  background-color: var(--orange);
+  border: 5px solid var(--lightredorange);
+  padding: 0px 30px;
+  top: calc(50% + 10px);
+  left: calc(50%);
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  transition: background-color 0.3s ease;
+  transition-duration: 1;
+  cursor: pointer;
+}
+
+.startbutton:hover {
+  background-color: var(--lightredorange);
+  border: 5px solid var(--orange);
+  color: var(--orange);
+}
+
+.loginbutton {
+  -webkit-app-region: no-drag;
+  position: absolute;
+  background-color: var(--orange);
+  border: 5px solid var(--lightredorange);
+  padding: 0px 45px;
+  top: calc(50% + 105px);
+  left: calc(50%);
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  transition: background-color 0.3s ease;
+  transition-duration: 1;
+  cursor: pointer;
+}
+
+.loginbutton:hover {
+  background-color: var(--lightredorange);
+  border: 5px solid var(--orange);
+  color: var(--orange);
+}
+
+.frame-1 {
+  position: absolute;
+  width: 602px;
+  height: 748px;
+  left: 18px;
+  top: 74px;
+  z-index: 2;
+}
+
+.frame-shade {
+  position: absolute;
+  width: 602px;
+  height: 748px;
+  left: 18px;
+  top: 74px;
+  z-index: 1;
+  background-color: black;
+  opacity: 0.2;
+}
+
+.input-row {
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.input-box {
+  width: 462px;
+  height: 55px;
+  box-sizing: border-box;
+  border: 5px solid var(--lightredorange);
+  background: rgb(241, 228, 203);;
+  padding-left: 5px;
+  font-size: 25px;
+}
+
+.add-button {
+  -webkit-app-region: no-drag;
+  width: 125px;
+  height: 55px;
+  box-sizing: border-box;
+  background-color: var(--orange);
+  border: 5px solid var(--lightredorange);
+  font-size: 32px;
+  color: var(--redorange);
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  transition-duration: 1;
+  cursor: pointer;
+}
+
+.add-button:hover {
+  background-color: var(--lightredorange);
+  border: 5px solid var(--orange);
+  color: var(--orange);
+}
+
+.load-button {
+  position: absolute;
+  -webkit-app-region: no-drag;
+  width: 140px;
+  height: 55px;
+  box-sizing: border-box;
+  background-color: var(--orange);
+  border: 5px solid var(--lightredorange);
+  font-size: 32px;
+  color: var(--redorange);
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  transition-duration: 1;
+  cursor: pointer;
+  left: 0px;
+  bottom: 172px;
+  margin: 5px;
+}
+
+.load-button:hover {
+  background-color: var(--lightredorange);
+  border: 5px solid var(--orange);
+  color: var(--orange);
+}
+
+.save-button {
+  position: absolute;
+  -webkit-app-region: no-drag;
+  width: 140px;
+  height: 55px;
+  box-sizing: border-box;
+  background-color: var(--orange);
+  border: 5px solid var(--lightredorange);
+  font-size: 32px;
+  color: var(--redorange);
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  transition-duration: 1;
+  cursor: pointer;
+  left: 0px;
+  bottom: 112px;
+  margin: 5px;
+}
+
+.save-button:hover {
+  background-color: var(--lightredorange);
+  border: 5px solid var(--orange);
+  color: var(--orange);
+}
+
+.row {
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+  border-radius: 30px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+ul {
+  padding-top: 5px;
+  list-style-type: none;
+  padding-left: 5px;
+}
+
+ul li {
+  position: relative;
+  font-size: 25px;
+  padding: 0px 0px 0px 30px;
+  margin-bottom: 15px;
+}
+
+ul li span {
+  position: absolute;
+  top: 0px;
+  width: 40px;
+  height: 40px;
+  right: 30px;
+  font-size: 30px;
+  line-height: 40px;
+  text-align: center;
+  border-radius: 50%;
+}
+
+ul li span:hover {
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.delete-button {
+  position: absolute;
+  top: 0px;
+  width: 40px;
+  height: 40px;
+  right: 0px;
+  font-size: 30px;
+  line-height: 40px;
+  text-align: center;
+  border-radius: 50%;
+  background: none;
+  border: none;
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.custom-checkbox {
+  cursor: pointer;
+  position: absolute;
+  left: 0;
+  width: 24px; 
+  height: 24px; 
+  background-image: url('assets/unchecked_check.png');
+  background-size: cover;
+  background-position: center;
+}
+
+input[type="checkbox"] {
+  display: none;
+}
+
+input[type="checkbox"]:checked ~ .custom-checkbox {
+  background-image: url('assets/checked_check.png');
+}
+
+input[type="checkbox"]:checked ~ .todo-text {
+  text-decoration: line-through;
+  color: #404040;
+}
+
+.list-item {
+  font-size: 24px;
+  padding-right: 30px;
+  height: auto; 
+  overflow-wrap: break-word; 
+  word-wrap: break-word;
+  white-space: normal; 
+  text-wrap: balance;
+}
+
+#list-container {
+  max-width: 582px;
+  max-height: 440px; /* Wysokość, po której lista zacznie się przewijać */
+  overflow-y: auto; /* Włącza przewijanie w pionie */
+  padding-right: 10px; /* Zapobiega zasłanianiu treści przez pasek przewijania */
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--creamyellow); 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--lightredorange); 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+.toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  opacity: 0.9;
+  transition: opacity 0.3s ease-in-out;
+  z-index: 9999;
+}
+.hidden {
+  display: none;
+}

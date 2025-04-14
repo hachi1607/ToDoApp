@@ -1,0 +1,43 @@
+{
+  "name": "koci-planer",
+  "productName": "Koci planer",
+  "version": "1.0.0",
+  "description": "Planer dla Maćka i Domi <3",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "lint": "echo \"No linting configured\""
+  },
+  "keywords": [],
+  "author": {
+    "name": "hachi1607",
+    "email": "maciej.ambros@gmail.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@google-cloud/local-auth": "^3.0.1",
+    "electron": "^25.0.0",
+    "electron-localshortcut": "^3.2.1",
+    "electron-reload": "^2.0.0-alpha.1",
+    "electron-squirrel-startup": "^1.0.1",
+    "express": "^5.1.0",
+    "fs-extra": "^11.0.0",
+    "googleapis": "^120.0.0",
+    "multer": "^1.4.5-lts.2"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^7.7.0",
+    "@electron-forge/maker-deb": "^7.7.0",
+    "@electron-forge/maker-rpm": "^7.7.0",
+    "@electron-forge/maker-squirrel": "^7.7.0",
+    "@electron-forge/maker-zip": "^7.7.0",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.7.0",
+    "@electron-forge/plugin-fuses": "^7.7.0",
+    "@electron/fuses": "^1.8.0",
+    "electron": "^34.5.1",
+    "electron-builder": "^25.1.8"
+  }
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="index.css" />
+    <script defer src="renderer.js"></script>
+    <title>Koci planer</title>
+  </head>
+
+  <body>
+    <div class="appname appheaderstyle">Koci planer</div>
+    <div class="window-controls">
+      <button id="minimize-btn">
+        <img src="assets/mintab.png" alt="Minimalizuj" id="minimize">
+      </button>
+      <button id="close-btn">
+        <img src="assets/closetab.png" alt="Zamknij" id="close-app">
+      </button>
+    </div>
+    <div class="frame-1">
+      <div class="input-row">
+        <input class="input-box" type="text" placeholder="Co chcesz zaplanować?">
+        <button class="add-button" onclick="addTask()">Dodaj</button>
+      </div>
+      <ul id="list-container">
+        <!-- tutaj dodawane będą taski -->
+      </ul>
+      <button class="load-button" id="load-btn" onclick="addDriveTodos()">Załaduj</button>
+      <button class="save-button" id="save-btn" onclick="saveDriveTodos()">Zapisz</button>
+    </div>
+    <div class="frame-shade"></div>
+    <!-- gif z kotem jako tło -->
+    <div class="fill frame">
+      <img class="gif" src="assets/kotek.gif" alt="Kotek">
+    </div>
+    <div id="toast" class="toast hidden"></div>
+  </body>
+</html>
