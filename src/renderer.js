@@ -1,5 +1,3 @@
-const { ipcRenderer } = require('electron');
-
 let isAuthenticated = false;
 let toastTimeout = null;
 
@@ -11,14 +9,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const listContainer = document.getElementById('list-container');
     const loginButton = document.getElementById('login-btn');
     const loadButton = document.getElementById('load-btn');
+    const saveButton = document.getElementById('save-btn');
 
     // Window control buttons
     minimizeButton?.addEventListener('click', () => {
-        ipcRenderer.send('minimize-window');
+        window.electronAPI.minimizeWindow();
     });
 
     closeButton?.addEventListener('click', () => {
-        ipcRenderer.send('close-window');
+        window.electronAPI.closeWindow();
     });
 
     // Enter key handler
@@ -31,15 +30,49 @@ document.addEventListener('DOMContentLoaded', () => {
     // Start button
     startButton?.addEventListener('click', () => {
         if (!isAuthenticated) {
-            showToast('Please log in first by clicking the Login button!');
+            showToast('Nie jesteś zalogowany!');
             return;
         }
-        ipcRenderer.send('navigate-to-planner');
+        window.electronAPI.navigateToPlanner();
     });
 
     // Login button
     loginButton?.addEventListener('click', () => {
-        ipcRenderer.send('login');
+        window.electronAPI.login();
+    });
+
+    // Load from Drive button
+    loadButton?.addEventListener('click', () => {
+        window.electronAPI.loadDriveTodos();
+    });
+
+    // Save to Drive button
+    saveButton?.addEventListener('click', () => {
+        saveDriveTodos();
+    });
+
+    // Setup event listeners
+    window.electronAPI.onSaveStatus((event, data) => {
+        console.log('Received save-status:', data);
+        if (data.success) {
+            showToast('Zapisano do Google Drive pomyślnie!');
+        } else {
+            showToast(`Błąd podczas zapisywania: ${data.error}`);
+        }
+    });
+
+    window.electronAPI.onNotification((event, message) => {
+        showToast(message);
+    });
+
+    window.electronAPI.onAuthenticationStatus((event, status) => {
+        isAuthenticated = status;
+    });
+
+    window.electronAPI.onLoadDriveTodos((event, todos) => {
+        localStorage.setItem('todos', JSON.stringify(todos));
+        loadTodos();
+        showToast('Wczytano listę z Google Drive!');
     });
 
     // Load todos if on planner page
@@ -48,31 +81,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// IPC Renderer events
-ipcRenderer.on('save-status', (event, data) => {
-    console.log('Received save-status:', data);
-    if (data.success) {
-        showToast('Successfully saved to shared Google Drive file!');
-    } else {
-        showToast(`Error saving to Drive: ${data.error}`);
-    }
-});
-
-ipcRenderer.on('notification', (event, message) => {
-    showToast(message);
-});
-
-ipcRenderer.on('authentication-status', (event, status) => {
-    isAuthenticated = status;
-});
-
-ipcRenderer.on('load-drive-todos', (event, todos) => {
-    localStorage.setItem('todos', JSON.stringify(todos));
-    loadTodos();
+// Cleanup event listeners when page unloads
+window.addEventListener('beforeunload', () => {
+    window.electronAPI.removeSaveStatusListener();
+    window.electronAPI.removeNotificationListener();
+    window.electronAPI.removeAuthenticationStatusListener();
+    window.electronAPI.removeLoadDriveTodosListener();
 });
 
 // Task management functions
-async function addTask() {
+function addTask() {
     const inputBox = document.querySelector('.input-box');
     const listContainer = document.getElementById('list-container');
     
@@ -86,11 +104,11 @@ async function addTask() {
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.id = `todo-${Date.now()}`;
+    checkbox.addEventListener('change', saveTodos);
     
     const customCheckbox = document.createElement('label');
     customCheckbox.className = 'custom-checkbox';
     customCheckbox.htmlFor = checkbox.id;
-    checkbox.addEventListener('change', saveTodos);
 
     const todoText = document.createElement('label');
     todoText.className = 'todo-text';
@@ -102,7 +120,7 @@ async function addTask() {
     deleteButton.innerHTML = '&#215;';
     deleteButton.onclick = function () {
         listContainer.removeChild(listItem);
-        // saveTodos();
+        saveTodos();
     };
 
     listItem.appendChild(checkbox);
@@ -112,16 +130,11 @@ async function addTask() {
 
     listContainer.appendChild(listItem);
     inputBox.value = '';
-    // saveTodos();
+    saveTodos();
 }
 
-async function addDriveTodos() {
-    loadTodos();
-    showToast('Loaded last saved todos from Google Drive');
-}
-
-async function saveDriveTodos() {
-  showToast('Saving to Google Drive...');
+function saveDriveTodos() {
+    showToast('Zapisywanie listy do Google Drive...');
     const listContainer = document.getElementById('list-container');
     if (!listContainer) return;
 
@@ -133,7 +146,7 @@ async function saveDriveTodos() {
         todos.push({ text, isChecked, id });
     });
     
-    ipcRenderer.send('save-drive-todos', todos);
+    window.electronAPI.saveDriveTodos(todos);
     saveTodos();
 }
 
@@ -181,7 +194,7 @@ function loadTodos() {
         deleteButton.innerHTML = '&#215;';
         deleteButton.onclick = function () {
             listContainer.removeChild(listItem);
-            // saveTodos();
+            saveTodos();
         };
 
         listItem.appendChild(checkbox);

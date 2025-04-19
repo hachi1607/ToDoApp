@@ -97,3 +97,32 @@ node_modules/
 *.log
 credentials.json
 token.json
+# Secrets
+credentials.json
+token.json
+
+# Node.js
+node_modules/
+npm-debug.log
+
+# Environment files
+.env
+.env.local
+
+# Electron
+dist/
+out/
+release/
+*.exe
+*.dmg
+*.deb
+*.snap
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

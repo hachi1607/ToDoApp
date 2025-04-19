@@ -9,7 +9,11 @@
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
-    "lint": "echo \"No linting configured\""
+    "lint": "echo \"No linting configured\"",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "postinstall": "electron-builder install-app-deps",
+    "build": "electron-builder --win --x64"
   },
   "keywords": [],
   "author": {
@@ -19,7 +23,6 @@
   "license": "MIT",
   "dependencies": {
     "@google-cloud/local-auth": "^3.0.1",
-    "electron": "^25.0.0",
     "electron-localshortcut": "^3.2.1",
     "electron-reload": "^2.0.0-alpha.1",
     "electron-squirrel-startup": "^1.0.1",
@@ -39,5 +42,29 @@
     "@electron/fuses": "^1.8.0",
     "electron": "^34.5.1",
     "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.yourname.kociplaner",
+    "win": {
+      "target": "portable",
+      "icon": "assets/icon.ico"
+    },
+    "productName": "Koci Planer",
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "extraResources": [
+      {
+        "from": "token.json",
+        "to": "token.json"
+      },
+      {
+        "from": "credentials.json",
+        "to": "credentials.json"
+      }
+    ]
   }
 }

@@ -5,8 +5,9 @@ const { google } = require('googleapis');
 
 // Constants
 const SCOPES = ['https://www.googleapis.com/auth/drive'];
-const TOKEN_PATH = path.join(__dirname, 'token.json');
-const CREDENTIALS_PATH = path.join(__dirname, 'credentials.json');
+const TOKEN_PATH = path.join(app.getPath('userData'), 'token.json');
+const CREDENTIALS_PATH = path.join(__dirname, 'credentials_example.json');
+const DRIVE_FILE_NAME = 'koci_planer_todos.json';
 
 // Google Drive Configuration
 const credentials = JSON.parse(fs.readFileSync(CREDENTIALS_PATH));
@@ -46,7 +47,7 @@ async function listDriveFiles() {
     const res = await drive.files.list({
       pageSize: 10,
       fields: 'files(id, name, mimeType, shared)',
-      q: "name='koci_planer_todos.json'",
+      q: "name=",DRIVE_FILE_NAME, //Here input your file name on your drive which will be used to save the todos
       includeItemsFromAllDrives: true,
       supportsAllDrives: true
     });
@@ -62,10 +63,10 @@ async function saveTodoFile(content) {
   
   try {
     const files = await listDriveFiles();
-    const todoFile = files.find(file => file.name === 'koci_planer_todos.json');
+    const todoFile = files.find(file => file.name === DRIVE_FILE_NAME);
 
     const fileMetadata = {
-      name: 'koci_planer_todos.json',
+      name: DRIVE_FILE_NAME,
       mimeType: 'application/json'
     };
 
@@ -92,7 +93,7 @@ async function saveTodoFile(content) {
       return { success: true };
     }
   } catch (err) {
-    console.error('Error saving file:', err);
+    console.error('Error while saving file:', err);
     return { success: false, error: err.message };
   }
 }
@@ -143,20 +144,20 @@ function authorize() {
         authWindow.close();
 
         mainWindow.webContents.send('authentication-status', true);
-        mainWindow.webContents.send('notification', 'Successfully logged in to Google Drive!');
+        mainWindow.webContents.send('notification', 'Logged in to Google Drive successfully!');
 
         // Load todos after authentication
         const files = await listDriveFiles();
-        const todoFile = files.find(file => file.name === 'koci_planer_todos.json');
+        const todoFile = files.find(file => file.name === DRIVE_FILE_NAME);
 
         if (todoFile) {
           todoData = await downloadTodoFile(todoFile.id);
-          mainWindow.webContents.send('notification', 'Todos loaded from Google Drive!');
+          mainWindow.webContents.send('notification', 'Loaded todos from Google Drive');
           mainWindow.webContents.send('load-drive-todos', todoData);
         }
       } catch (err) {
         console.error('Authentication error:', err);
-        mainWindow.webContents.send('notification', `Authentication failed: ${err.message}`);
+        mainWindow.webContents.send('notification', `Authentication not successful: ${err.message}`);
         isAuthenticating = false;
       }
     }
@@ -176,15 +177,16 @@ function createWindow() {
     height: 850,
     frame: false,
     maximizable: false,
+    resizable: false,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
-      nodeIntegration: true,
-      contextIsolation: false,
+      nodeIntegration: false,
+      contextIsolation: true,
     },
   });
 
   mainWindow.loadFile(path.join(__dirname, 'start_page.html'));
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 }
 
 /**
@@ -221,7 +223,7 @@ function setupIpcHandlers() {
         mainWindow.webContents.send('load-drive-todos', todoData);
       }
     } catch (err) {
-      console.error('Error loading todos:', err);
+      console.error('Error while displaying to-do list:', err);
     }
   });
 }

@@ -229,6 +229,13 @@ body {
   font-size: 25px;
 }
 
+.input-box:focus {
+  outline: none;
+  border: 5px solid var(--orange);
+  caret-shape: block;
+  caret-color: var(--orange);
+}
+
 .add-button {
   -webkit-app-region: no-drag;
   width: 125px;
@@ -352,7 +359,6 @@ ul li span:hover {
   font-size: 30px;
   line-height: 40px;
   text-align: center;
-  border-radius: 50%;
   background: none;
   border: none;
   font-size: 30px;
@@ -420,7 +426,7 @@ input[type="checkbox"]:checked ~ .todo-text {
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+  background: var(--orange)
 }
 
 .toast {
@@ -431,7 +437,6 @@ input[type="checkbox"]:checked ~ .todo-text {
   background-color: #333;
   color: white;
   padding: 10px 20px;
-  border-radius: 6px;
   opacity: 0.9;
   transition: opacity 0.3s ease-in-out;
   z-index: 9999;
